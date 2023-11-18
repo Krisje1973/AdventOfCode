@@ -34,26 +34,7 @@ def find_first_crash(track):
                     return cart.x, cart.y  # Collision found
 
             track_char = track[cart.y][cart.x]
-            if track_char == '+':
-                cart.turn_intersection()
-            elif track_char == '/':
-                if cart.direction == '^':
-                    cart.turn_right()
-                elif cart.direction == 'v':
-                    cart.turn_right()
-                elif cart.direction == '<':
-                    cart.turn_left()
-                elif cart.direction == '>':
-                    cart.turn_left()
-            elif track_char == '\\':
-                if cart.direction == '^':
-                    cart.turn_left()
-                elif cart.direction == 'v':
-                    cart.turn_left()
-                elif cart.direction == '<':
-                    cart.turn_right()
-                elif cart.direction == '>':
-                    cart.turn_right()
+            cart.turn(track_char)
 
 
 def first_star():

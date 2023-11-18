@@ -792,20 +792,27 @@ class Cart:
         x,y = self.movements[self.direction]
         self.x += x
         self.y += y
-
-    def turn_left(self):
-        self.current_direction.rotate(-1)
-        self.direction = self.current_direction[0]
-
-    def turn_right(self):
-        self.current_direction.rotate(1)
-        self.direction = self.current_direction[0]
+        
+    def turn(self,track_char):
+        if track_char == "/":
+            direction = { "^":">","v":"<","<":"v",">":"^"}
+            self.direction = self.set_direction(direction[self.direction])[0]
+        if track_char == "\\":
+            direction = { "^":"<","v":">","<":"^",">":"v"}
+            self.direction = self.set_direction(direction[self.direction])[0]
+        if track_char == "+":
+            self.turn_intersection()
     
     def turn_intersection(self):
+        self.set_direction(self.direction)
+        
         if self.intersection_count % 3 == 0:
-            self.turn_left()
+            self.current_direction.rotate(1)
+            
         elif self.intersection_count % 3 == 1:
             pass  # Go straight
         elif self.intersection_count % 3 == 2:
-            self.turn_right()
+            self.current_direction.rotate(-1)
+        
+        self.direction = self.current_direction[0]
         self.intersection_count += 1
