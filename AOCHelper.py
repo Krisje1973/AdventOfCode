@@ -776,37 +776,30 @@ class Cart:
     def __init__(self, x, y, direction):
         self.x = x
         self.y = y
+        self.directions = deque("^>v<")
         self.movements = {"^":(0,-1),"v":(0,1),"<":(-1,0),">":(1,0)}
         self.direction = direction
+        self.current_direction = self.set_direction(direction)
         self.intersection_count = 0
-        self.directions = deque("^>v<")
        
-        
+    
+    def set_direction(self,direction):  
+        while self.directions[0] != direction:
+            self.directions.rotate(1)
+        return self.directions
+    
     def move(self):
         x,y = self.movements[self.direction]
         self.x += x
         self.y += y
 
     def turn_left(self):
-        if self.direction == '^':
-            self.direction = '<'
-        elif self.direction == 'v':
-            self.direction = '>'
-        elif self.direction == '<':
-            self.direction = 'v'
-        elif self.direction == '>':
-            self.direction = '^'
+        self.current_direction.rotate(-1)
+        self.direction = self.current_direction[0]
 
     def turn_right(self):
-        if self.direction == '^':
-            self.direction = '>'
-        elif self.direction == 'v':
-            self.direction = '<'
-        elif self.direction == '<':
-            self.direction = '^'
-        elif self.direction == '>':
-            self.direction = 'v'
-
+        self.current_direction.rotate(1)
+        self.direction = self.current_direction[0]
     
     def turn_intersection(self):
         if self.intersection_count % 3 == 0:

@@ -37,22 +37,22 @@ def find_first_crash(track):
             if track_char == '+':
                 cart.turn_intersection()
             elif track_char == '/':
-                if cart.direction[0] == '^':
+                if cart.direction == '^':
                     cart.turn_right()
-                elif cart.direction[0] == 'v':
+                elif cart.direction == 'v':
                     cart.turn_right()
-                elif cart.direction[0] == '<':
+                elif cart.direction == '<':
                     cart.turn_left()
-                elif cart.direction[0] == '>':
+                elif cart.direction == '>':
                     cart.turn_left()
             elif track_char == '\\':
-                if cart.direction[0] == '^':
+                if cart.direction == '^':
                     cart.turn_left()
-                elif cart.direction[0] == 'v':
+                elif cart.direction == 'v':
                     cart.turn_left()
-                elif cart.direction[0] == '<':
+                elif cart.direction == '<':
                     cart.turn_right()
-                elif cart.direction[0] == '>':
+                elif cart.direction == '>':
                     cart.turn_right()
 
 
