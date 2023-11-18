@@ -1,5 +1,5 @@
 from functools import reduce
-from collections import defaultdict 
+from collections import defaultdict,deque 
 import sys
 import re
 from queue import PriorityQueue
@@ -776,19 +776,16 @@ class Cart:
     def __init__(self, x, y, direction):
         self.x = x
         self.y = y
+        self.movements = {"^":(0,-1),"v":(0,1),"<":(-1,0),">":(1,0)}
         self.direction = direction
         self.intersection_count = 0
-        self.directions = "^>v<"
-
+        self.directions = deque("^>v<")
+       
+        
     def move(self):
-        if self.direction == '^':
-            self.y -= 1
-        elif self.direction == 'v':
-            self.y += 1
-        elif self.direction == '<':
-            self.x -= 1
-        elif self.direction == '>':
-            self.x += 1
+        x,y = self.movements[self.direction]
+        self.x += x
+        self.y += y
 
     def turn_left(self):
         if self.direction == '^':
@@ -810,6 +807,7 @@ class Cart:
         elif self.direction == '>':
             self.direction = 'v'
 
+    
     def turn_intersection(self):
         if self.intersection_count % 3 == 0:
             self.turn_left()
