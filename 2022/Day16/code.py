@@ -1,35 +1,33 @@
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
 from  AOCHelper import * 
 
 input = []
-def readinput():
+valves = {}
+tunnels = {}
+
+def readinput(filename):
+    filename = f"{os.path.dirname(__file__)}\{filename}"
     global input
     regex = r"^Valve (\w+) has flow rate=(\d+); tunnels? leads? to valves? ([\w ,]+)$"
-    input = re.findall(regex,open_file("Day16\input_ex.txt"),re.MULTILINE)
-  
+    input = re.findall(regex,open_file(filename),re.MULTILINE)
+ 
+    for line in input:
+        valve,flow,tunnel = line
+        valves[valve] = flow
+        tunnels[valve] = [tunnel]
 def main():
-   readinput()
+   readinput("input_ex.txt")
    first_star()
    #second_star()        
 
 
 def first_star():
-    valves = defaultdict(str)
-    
-
-    for line in input:
-        valves[line[0]] = Valve(line[0],int(line[1]),line[2])
-
-    graph = Graph()
-    G = defaultdict(list)
-    for valve in valves:
-        for tunnel in valves[valve].tunnels:
-            #graph.add_edge({valve,tunnel})
-            G[valve].append(tunnel)
    
-   
-    print(dag_shortest_path(G,"AA","FF"))
+    visited = set() # Set to keep track of visited nodes of graph.   
+    dfs(visited,tunnels,'AA')
+    #rint(dag_shortest_path(G,"AA","FF"))
     print("Result First Star")
     
 

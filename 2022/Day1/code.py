@@ -2,12 +2,15 @@ import math
 import functools 
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
+
 from  AOCHelper import * 
 input = []
 def readinput():
    global input
    file =  FileHelper()
-   input = file.get_arrays_ints_from_separator(readinput_lines("Day1\input.txt"),"\n")
+   filename = os.path.dirname(__file__) + "\input.txt"
+   input = file.get_arrays_ints_from_separator(readinput_lines(filename),"\n")
   
 def main():
    readinput()

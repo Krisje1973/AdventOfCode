@@ -94,6 +94,13 @@ def shift_string(s, shift):
     return s[shift:] + s[:shift]
 
 
+def char_position(letter):
+    return ord(letter) - 97
+
+def pos_to_char(pos):
+    return chr(pos + 97)
+
+
 """ A Python Class
 A simple Python graph class, demonstrating the essential 
 facts and functionalities of graphs.
@@ -688,7 +695,22 @@ def dijkstra(adj, start, target):
 
     return parent, d
 
-def dfs(adj, v, parent, order):
+def dfs(visited, graph, node):  #function for dfs 
+    #  graph = {
+    #     '5' : ['3','7'],
+    #     '3' : ['2', '4'],
+    #     '7' : ['8'],
+    #     '2' : [],
+    #     '4' : ['8'],
+    #     '8' : []
+    # }
+    if node not in visited:
+        print (node)
+        visited.add(node)
+        for neighbour in graph[node]:
+            dfs(visited, graph, neighbour)
+
+def dfs_order(adj, v, parent, order):
     if not parent:
         parent[v] = None
     # checking neighbours of v
@@ -806,6 +828,8 @@ class Cart:
     def turn_intersection(self):
         self.set_direction(self.direction)
         
+
+
         if self.intersection_count % 3 == 0:
             self.current_direction.rotate(1)
             
