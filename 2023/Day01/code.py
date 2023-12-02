@@ -1,4 +1,5 @@
 import os, sys
+from re import Pattern
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
 from  AOCHelper import * 
@@ -16,16 +17,9 @@ def main():
 def first_star():
     cal = 0
     for line in input:     
-        cn = 0
-        f = True
-        for c in line:
-            if c.isdigit():
-                cn = int(c)
-                if f: 
-                    cal+=int(c) * 10
-                    f = False
-        cal+=cn     
-
+        nums = getDigitsFromString(line)
+        cal+=nums[0] * 10 + nums[-1]
+       
     print("Result First Star")
     print(cal)
 

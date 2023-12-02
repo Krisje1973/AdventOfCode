@@ -872,5 +872,10 @@ def findNumbersInString(s,sort=False) -> list:
 def getFirstAndLastNumberFromString(s):
     return next(c for c in s if c.isdigit()), next(c for c in s[::-1] if c.isdigit())
 
+# retrieve digits from string --> 1,2,3 ...  
+def getDigitsFromString(s):
+    return list(map(int,re.findall(r'\d',s)))
+
+# retrieve numbers from string --> 1,25,367 ...
 def getNumbersFromString(s):
-     return [c for c in s if c.isdigit()]
+    return list(map(int,re.findall(r'\d+',s)))
