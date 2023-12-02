@@ -840,3 +840,37 @@ class Cart:
         
         self.direction = self.current_direction[0]
         self.intersection_count += 1
+
+# Extract all numbers by text annotation as list of tuples
+# Tuple pos 1 = position in text, pos 2 = found number 
+# Can be sorted with min and max functions
+def findStringNumbers(s,sort=False) -> list:
+    results = []
+    numbers = ["one","two","three","four","five","six","seven","eight","nine"]
+    for i,num in enumerate(numbers):
+        p=0
+        s2=s
+        while s2.find(num)>-1:
+            p+=s2.index(num)
+            results.append((p,i+1))
+            p+=1
+            s2 = s[p::]
+    if sort:
+        results.sort()
+    return results 
+
+def findNumbersInString(s,sort=False) -> list:
+    results = []
+    for i,num in enumerate(s):
+        if(num.isdigit()):
+            results.append((i,int(num)))
+
+    if sort:
+        results.sort()
+    return results 
+
+def getFirstAndLastNumberFromString(s):
+    return next(c for c in s if c.isdigit()), next(c for c in s[::-1] if c.isdigit())
+
+def getNumbersFromString(s):
+     return [c for c in s if c.isdigit()]
