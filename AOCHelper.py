@@ -480,7 +480,7 @@ class TupleHelper():
         for nx, ny in (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1):
             yield (nx, ny)
     
-    def get_get_neighbours_with_diag(self,tuple):
+    def get_neighbours_with_diag(self,tuple):
         x,y = tuple
         for nx, ny in (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1), (x-1,y-1), (x+1,y+1),(x-1,y+1), (x+1,y-1):
             yield (nx, ny)
@@ -610,7 +610,9 @@ class ChineseReminder():
       return gcd, x, y  # x, y are for [ax + by = gcd]
 
 class RegexHelper():
-
+    def extract_digits(self,line):
+        return list(map(int,re.findall(r'\d',line)))
+    
     def extract_numerics(self,line):
         return list(map(int, re.findall(r"-?\d+", line)))
         
