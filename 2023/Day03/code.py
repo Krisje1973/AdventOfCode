@@ -24,20 +24,12 @@ def first_star():
             c = str(input[y][x])
             if c.isdigit():
                 if hasSymbolAsNeighbourg(x,y,maxx,maxy):
-                    xn = x
-                    num = ""
-                    while input[y][xn].isdigit() and xn!=-1:
-                        xn-=1
-                    xn+=1
-                    while xn!=len(line) and input[y][xn].isdigit():
-                        num+=input[y][xn]
-                        xn+=1     
-                   
-                    parts[(y,xn)] = int(num)
+                    n,p = getNumAndLastPosition(x,y,line)
+                    parts[(y,p)] = n
 
     print("Result First Star")
     print(sum(parts.values()))
- 
+
 def second_star():
     
     #74254134 low
@@ -51,28 +43,27 @@ def second_star():
         for x in range(len(line)-1):
             c = str(input[y][x])
             if c.isdigit():
-                # get number
-                xn = x
-                num = ""
-                while input[y][xn].isdigit() and xn!=-1:
-                    xn-=1
-                xn+=1
-                while xn!=len(line) and input[y][xn].isdigit():
-                    num+=input[y][xn]
-                    xn+=1     
-                
-                num=int(num)
+                num,_ = getNumAndLastPosition(x,y,line)
                 m = getMultiplierLocation(x,y,maxx,maxy) 
                 if m != None:
                     ps.add((m,num))
-
-    for p in ps:
-        if p[0] in parts:
-            tot+= p[1] * parts[p[0]]
-        parts[p[0]] = p[1]
-
+                    if m in parts and parts[m] != num:
+                        tot+= num * parts[m]
+                    parts[m] = num
+ 
     print("Result Second Star")
     print(tot)
+
+def getNumAndLastPosition(x,y,line) -> tuple:
+    num = ""
+    while input[y][x].isdigit() and x!=-1:
+        x-=1
+    x+=1
+    while x!=len(line) and input[y][x].isdigit():
+        num+=input[y][x]
+        x+=1     
+
+    return int(num),x
 
 def hasSymbolAsNeighbourg(x,y,maxx,maxy):
     gh = GridHelper()
