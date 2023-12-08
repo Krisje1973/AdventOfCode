@@ -39,6 +39,7 @@ def first_star():
     print(ct)
  
 def second_star():
+    cr  = ChineseReminder()
     instructs = collections.deque([s for s in (input[0])])
     ins = instructs.popleft()
     instructs.append(ins)
@@ -57,32 +58,7 @@ def second_star():
         tot = tot * num // gcd(tot, num)
     print("Result Second Star")
     print(tot)
+    print("Result Second Star Chinese Remainder:" ,cr.calculate_chinese_remainder(counts,counts)[1] )
 
-def chines():
-    cr  = ChineseReminder()
-    instructs = collections.deque([s for s in (input[0])])
-    ins = instructs.popleft()
-    instructs.append(ins)
-
-    paths =[]
-    ends = []
-    for line in dirs:
-        for ins in instructs:
-            s  = dirs[line]["LR".index(ins)]
-            i=0
-            m=10000
-            for c in s:
-                print(ord(c),c)
-                i += ord(c) * m
-                m = m / 100
-
-            paths.append(i)
-            if s.endswith("Z"):
-                ends.append(i)
-    print(cr.calculate_chinese_remainder(paths,ends))
-
-
-    ct = 0
-    s = "AAA"
 if __name__ == '__main__':
     main()
