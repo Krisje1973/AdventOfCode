@@ -20,20 +20,17 @@ def readinput(filename):
     
 def main():
    readinput("input.txt")
-   #first_star()
+   first_star()
    second_star()
 
 def first_star():
     instructs = collections.deque([s for s in (input[0])])
-    ins = instructs.popleft()
-    instructs.append(ins)
     ct = 0
     s = "AAA"
     while s != "ZZZ":
         ct+=1
-        s = dirs[s]["LR".index(ins)]
-        ins = instructs.popleft()
-        instructs.append(ins)
+        s = dirs[s]["LR".index(instructs[0])]
+        instructs.rotate(-1)
     
     print("Result First Star")
     print(ct)
@@ -41,16 +38,13 @@ def first_star():
 def second_star():
     cr  = ChineseReminder()
     instructs = collections.deque([s for s in (input[0])])
-    ins = instructs.popleft()
-    instructs.append(ins)
     counts = []
     for s in  [x for x in dirs if x[2] == "A"]:
         ct = 0
         while s[2] != "Z":
             ct+=1
-            s = dirs[s]["LR".index(ins)]
-            ins = instructs.popleft()
-            instructs.append(ins)
+            s = dirs[s]["LR".index(instructs[0])]
+            instructs.rotate(-1)
         counts.append(ct)
     
     tot = 1
@@ -58,7 +52,8 @@ def second_star():
         tot = tot * num // gcd(tot, num)
     print("Result Second Star")
     print(tot)
-    print("Result Second Star Chinese Remainder:" ,cr.calculate_chinese_remainder(counts,counts)[1] )
+    print("Result Second Star Chinese Remainder")
+    print(cr.calculate_chinese_remainder([0 for x in counts],counts)[1])
 
 if __name__ == '__main__':
     main()

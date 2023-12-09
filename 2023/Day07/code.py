@@ -16,7 +16,7 @@ def readinput(filename):
         cards[c] = int(b)
 
 def main():
-   readinput("input.txt")
+   readinput("input_ex.txt")
    #first_star()
    second_star()
 
@@ -43,10 +43,11 @@ def first_star():
     print(tot)
 
 def second_star():
+    print(getReplacements("ABCB","DEF", "B"))
     tot = 0
     scores = defaultdict(int)
     for card in cards:
-        scores[card] =  max(map(getScore,getReplacements(card)))
+        scores[card] =  max(map(getScore,getReplacements(card,"J23456789TQKA","J")))
    
     scores = dict(sorted(scores.items(), key=lambda x:x[1]))
    
@@ -65,15 +66,7 @@ def second_star():
     print("Result Second Star")
     print(tot)
 
-def getReplacements(card):
-    if card == "":
-        return [""]
 
-    return [
-        x + y
-        for x in ("23456789TQKA" if card[0] == "J" else card[0])
-        for y in getReplacements(card[1:])
-    ]
 
 
 def getScore(card)->int:

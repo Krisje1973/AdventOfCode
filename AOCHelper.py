@@ -880,4 +880,18 @@ def getDigitsFromString(s):
 
 # retrieve numbers from string --> 1,25,367 ...
 def getNumbersFromString(s):
-    return list(map(int,re.findall(r'\d+',s)))
+    return list(map(int,re.findall(r'-?\d+\.?\d*',s)))
+
+# Get replacements for char in string
+# Return array with all replaced char string
+# ex: s="ABCB",replacements "DEF",charToReplace "B"
+# returns ['ADCD', 'ADCE', 'ADCF', 'AECD', 'AECE', 'AECF', 'AFCD', 'AFCE', 'AFCF']
+def getReplacements(s,replacements,charToReplace):
+    if s == "":
+        return [""]
+
+    return [
+        x + y
+        for x in (replacements if s[0] == charToReplace else s[0])
+        for y in getReplacements(s[1:],replacements,charToReplace)
+    ]
