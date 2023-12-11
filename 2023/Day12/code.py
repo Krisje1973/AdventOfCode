@@ -9,7 +9,8 @@ def readinput(filename):
     filename = f"{os.path.dirname(__file__)}\{filename}"
     global input
     input = readinput_lines(filename)
-    
+   
+
 def main():
    readinput("input.txt")
    first_star()

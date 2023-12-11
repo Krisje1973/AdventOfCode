@@ -533,7 +533,7 @@ class GridHelper:
         yield tuple(sum(tup) for tup in zip((x,y,z), side))
  
   def join_lines_from_list(self,mylist): 
-      return "".join("".join(row) for row in mylist)
+      return "\n".join("".join(row) for row in mylist)
 
 
   def calculate_combinations(self,data,offset):
