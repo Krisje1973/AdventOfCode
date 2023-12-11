@@ -897,3 +897,7 @@ def getReplacements(s,replacements,charToReplace):
         for x in (replacements if s[0] == charToReplace else s[0])
         for y in getReplacements(s[1:],replacements,charToReplace)
     ]
+
+def isbetween(value: int, low: int, high: int) -> bool:
+    if low > high: low, high = high, low
+    return low < value < high   

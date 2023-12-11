@@ -13,7 +13,7 @@ def readinput(filename):
     empty_rows = []
     empty_cols = []
     galaxies = []
-    
+   
     for ri in range(len(input)):
         h = [input[ri][x]=="." for x in range(len(input[0]))]  
         if all(c for c in h):
@@ -27,19 +27,20 @@ def readinput(filename):
         for c, ch in enumerate(row):
             if ch == "#":
                 galaxies.append((r,c))
+
+    empty_rows = [r for r, row in enumerate(input) if all(ch == "." for ch in row)]
+    empty_cols = [c for c, col in enumerate(zip(*input)) if all(ch == "." for ch in col)]
+
+    galaxies = [(r, c) for r, row in enumerate(input) for c, ch in enumerate(row)  if ch == "#"]
        
 def main():
-    readinput("input.txt")
+    readinput("input_ex.txt")
     first_star()
     second_star()
 
 def first_star():
     print("Result First Star")
     print(calculate_distances(1))
-
-def isbetween(v: int, a: int, b: int) -> bool:
-    if a > b: a, b = b, a
-    return a < v < b   
 
 def calculate_distances(offset):
     tot = 0
