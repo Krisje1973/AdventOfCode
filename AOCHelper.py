@@ -858,7 +858,8 @@ def findStringNumbers(s,sort=False) -> list:
             p+=1
             s2 = s[p::]
     if sort:
-        results.sort()
+        return results.sort()
+    
     return results 
 
 def findNumbersInString(s,sort=False) -> list:
@@ -868,7 +869,8 @@ def findNumbersInString(s,sort=False) -> list:
             results.append((i,int(num)))
 
     if sort:
-        results.sort()
+        return results.sort()
+    
     return results 
 
 def getFirstAndLastNumberFromString(s):
