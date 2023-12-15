@@ -11,22 +11,19 @@ def readinput(filename):
     input = readinput_lines(filename)
     input = input[0].split(",")
 def main():
-   readinput("input.txt")
-   #first_star()
-   second_star()
+    readinput("input.txt")
+    first_star()
+    second_star()
 
 def first_star():
-    tot=0
-    for h in input:
-        tot+= hash(h)
-    
     print("Result First Star")
-    print(tot)
+    print(sum(map(hash,input)))
  
 def second_star():
     boxes = defaultdict(dict)
     for i in range(256):
         boxes[i] = {}
+
     for h in input:
         op = "=" 
         if "-" in h:
@@ -45,7 +42,6 @@ def second_star():
         for l,lens in enumerate(boxes[b]):
             tot += ((b + 1) * (l + 1)) * int(boxes[b][lens])
 
-        
     print("Result Second Star")
     print(tot)
 def hash(s) -> int:
