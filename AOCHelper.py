@@ -901,3 +901,16 @@ def getReplacements(s,replacements,charToReplace):
 def isbetween(value: int, low: int, high: int) -> bool:
     if low > high: low, high = high, low
     return low < value < high   
+
+def find_mirror(grid):
+    for r in range(1, len(grid)):
+        above = grid[:r][::-1]
+        below = grid[r:]
+        
+        above = above[:len(below)]
+        below = below[:len(above)]
+        
+        if above == below:
+            return r
+        
+    return 0
