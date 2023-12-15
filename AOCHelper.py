@@ -625,7 +625,7 @@ class RegexHelper():
                 return False
 
         return True
-
+    
     def has_string_numeric_regex(self, s):
         for i in s:
             if re.search('^[0-9]+$',i):
