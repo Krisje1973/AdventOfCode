@@ -797,16 +797,17 @@ def manhattan(a, b):
     return sum(abs(val1-val2) for val1, val2 in zip(a,b))
 
 class Cart:
-    def __init__(self, x, y, direction):
+    def __init__(self, x, y, direction,grid=[]):
         self.x = x
         self.y = y
+        self.grid = grid
         self.directions = deque("^>v<")
         self.movements = {"^":(0,-1),"v":(0,1),"<":(-1,0),">":(1,0)}
         self.direction = direction
         self.current_direction = self.set_direction(direction)
         self.intersection_count = 0
+        self.visited = set()
        
-    
     def set_direction(self,direction):  
         while self.directions[0] != direction:
             self.directions.rotate(1)
@@ -816,8 +817,17 @@ class Cart:
         x,y = self.movements[self.direction]
         self.x += x
         self.y += y
-        
-    def turn(self,track_char):
+
+    def move_if_valid(self):
+        x,y = self.movements[self.direction]
+        self.x += x
+        self.y += y
+        valid = not (self.x < 0 or self.x > len(self.grid[0]) -1 or self.y < 0 or self.y > len(self.grid) -1)
+        return valid
+
+    def turn(self,track_char=""):
+        if track_char == "": 
+            track_char = self.get_char()
         if track_char == "/":
             direction = { "^":">","v":"<","<":"v",">":"^"}
             self.direction = self.set_direction(direction[self.direction])[0]
@@ -826,16 +836,21 @@ class Cart:
             self.direction = self.set_direction(direction[self.direction])[0]
         if track_char == "+":
             self.turn_intersection()
-    
+
+        if track_char == "-":
+            if self.direction in "^v":
+                return (Cart(self.x + 1 ,self.y,">",self.grid),Cart(self.x-1,self.y,"<",self.grid))
+        if track_char == "|":
+            if self.direction in "<>":
+                return (Cart(self.x,self.y - 1,"^",self.grid),Cart(self.x,self.y + 1,"v",self.grid))
+
     def turn_intersection(self):
         self.set_direction(self.direction)
         
-
-
         if self.intersection_count % 3 == 0:
             self.current_direction.rotate(1)
             
-        elif self.intersection_count % 3 == 1:
+        elif self.intersection_count % 3 == 1:  
             pass  # Go straight
         elif self.intersection_count % 3 == 2:
             self.current_direction.rotate(-1)
@@ -843,6 +858,13 @@ class Cart:
         self.direction = self.current_direction[0]
         self.intersection_count += 1
 
+    def get_char(self):
+        if len(self.grid) == 0: 
+            return None
+        if not self.x < 0 and not self.x > len(self.grid[0]) and not self.y < 0 and not self.y > len(self.grid) :
+            return self.grid[self.y][self.x]
+
+        return None
 # Extract all numbers by text annotation as list of tuples
 # Tuple pos 1 = position in text, pos 2 = found number 
 # Can be sorted with min and max functions

@@ -49,8 +49,9 @@ def second_star():
         groups[idx] = groups[idx] * 5
         for _ in range(4):
             s += "?" + line
-        replacements = getReplacements(s,"#.","?")
-        print(replacements[0].replace("#","1").replace(".","0"),groups[idx],len(replacements))
+        print(s)
+        #replacements = getReplacements(s,"#.","?")
+        #print(replacements[0].replace("#","1").replace(".","0"),groups[idx],len(replacements))
     
         #tot+= validate_recursive(s,groups[idx])
    
