@@ -615,6 +615,14 @@ class RegexHelper():
     
     def extract_numerics(self,line):
         return list(map(int, re.findall(r"-?\d+", line)))
+    
+    def extract_numerics_from_list(self,lines):
+        for line in lines:
+            yield list(map(int, re.findall(r"-?\d+", line)))[0]
+
+    def extract_numerics_from_list_as_List(self,lines):
+        for line in lines:
+            yield list(map(int, re.findall(r"-?\d+", line)))
         
     def is_string_numeric_regex(self,s):
         return re.search('^[-+]?[0-9]+$',s)
