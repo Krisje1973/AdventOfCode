@@ -200,6 +200,26 @@ class Graph(object):
                     return extended_path
         return None
     
+    def yieldAllPathsUtil(self, u, d, visited, path):
+     
+        # Mark the current node as visited and store in path
+        visited[u]= True
+        path.append(u)
+ 
+        # If current vertex is same as destination, then print
+        # current path[]
+        if u == d:
+            yield path
+        else:
+            # If current vertex is not destination
+            # Recur for all the vertices adjacent to this vertex
+            for i in self.graph[u]:
+                if visited[i]== False:
+                    self.yieldAllPathsUtil(i, d, visited, path)
+                     
+        # Remove current vertex from path[] and mark it as unvisited
+        path.pop()
+        visited[u]= False
 
     def find_all_paths(self, start_vertex, end_vertex, path=[]):
         """ find all paths from start_vertex to 
@@ -217,7 +237,8 @@ class Graph(object):
                                                      end_vertex, 
                                                      path)
                 for p in extended_paths: 
-                    paths.append(p)
+                    if p not in paths:
+                        paths.append(p)
         return paths
 
     def is_connected(self, 
@@ -479,6 +500,17 @@ class TupleHelper():
         x,y = tuple
         for nx, ny in (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1):
             yield (nx, ny)
+    
+    def get_neighbours_with_bounderies(self,tuple,bound,allowunderzero=False):
+        r,c = tuple
+        maxr,maxc = bound
+        res = []
+        for nr, nc in (r - 1, c), (r + 1, c), (r, c - 1), (r, c + 1):
+            if not allowunderzero and 0 <= nr <= maxr and 0<= nc <= maxc: 
+                res.append((nr,nc))
+            if allowunderzero and nr <= maxr and nc <= maxc: 
+                res.append((nr,nc))
+        return res
     
     def get_neighbours_with_diag(self,tuple):
         x,y = tuple
@@ -944,3 +976,22 @@ def find_mirror(grid):
             return r
         
     return 0
+
+
+def find_mirror2(grid):
+    for r in range(1, len(grid)):
+        above = grid[:r][::-1]
+        below = grid[r:]
+        
+        if sum(sum(0 if a == b else 1 for a, b in zip(x, y)) for x, y in zip(above, below)) == 1:
+            return r
+
+    return 0
+
+def shoelace(xs,ys,n_outsides):
+    # Gets the full area filled 
+    assert len(xs) == len(ys)
+    if n_outsides:
+        n_outsides = n_outsides // 2 + 1 
+    intern = abs(sum((ys[i] +ys[i+1]) * (xs[i] - xs[i+1]) for i in range(len(xs)-1))) // 2
+    return intern + n_outsides

@@ -1,86 +1,76 @@
 import math
 import functools ,itertools
 import os, sys
+import numpy as np
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
 from  AOCHelper import * 
 input = []
-digplan = defaultdict(str)
+
 def readinput(filename):
     filename = f"{os.path.dirname(__file__)}\{filename}"
-    global input,digplan
-    CH = Compass()
-    input = readinput_lines(filename)
-    for line in input:
-        d,l,c = line.split()
-        match d:
-            case "U":
-                d = (-1,0)
-            case "D":
-                d  = (1,0)
-            case "R":
-                d = (0,1)
-            case "L":
-                d = (0,-1)
+    global input
 
-        digplan[c] = (d,int(l))
-    
+    input = readinput_lines(filename)
+
 def main():
-   readinput("input_ex.txt")
+   readinput("input.txt")
    first_star()
    second_star()
 
 def first_star():
-    TH = TupleHelper()
-    grid = set()
-    pos = (0,1)
-    mar,mac,mir,mic = 0,0,0,0
-    for dig in digplan:
-        d = digplan[dig][0]
-        l= digplan[dig][1]
-
-        for i in range(l):
-            pos = TH.add_tuples(pos,d)
-            grid.add(pos)
-    
-    rows = [d[0] for d in grid]
-    cols = [d[1] for d in grid]
-    minr = min(rows)
-    maxr = max(rows)
-    minc = min(cols)
-    maxc = max(cols)
-
-    print(minr,maxr,minc,maxc)
-    grid = sorted(grid)
-    last = None
-    mic,mac,tot = 0,0,0
-      
-    gg = []
-    for i in range(minr,maxr+1):
-        gg.append(["."])
-        for _ in range(minc,maxc+1):
-            gg[i].append(".")   
-
-    for r,c in grid:
-       gg[r][c] = "#"
+    # Shoelace formula
+    # picks theorym
+ 
+    xs = [0]
+    ys = [0]
+    x = y = 0
+    b = 0
+    for line in input:
+        d,n,_ = line.split()
+        n = int(n)
+        b+=n
+        if d == "R":
+            x += n
+        if d == "L":
+            x -= n
+        if d == "U":
+            y -= n            
+        if d == "D":
+            y += n
+        
+        xs.append(x)
+        ys.append(y)
 
     print("Result First Star")
-    grid = []
-    for row in gg:
-        s = "".join(row)
-        grid.append(s)
-    
-    print(grid)
-    cc="."
-    for row in grid:
-        cc.pop()
-        print(row.split(".#"))
-
-        
+    print(shoelace(xs,ys,b))
 
 def second_star():
-   
+    xs = [0]
+    ys = [0]
+    x = y = 0
+    b = 0
+    for line in input:
+        _,_,code = line.split()
+        code = code.replace("#","").replace("(","").replace(")","")
+        
+        d = "RDLU"[int(code[-1])]
+        n = int(code[:5],16)
+        b+=n
+        if d == "R":
+            x += n
+        if d == "L":
+            x -= n
+        if d == "U":
+            y -= n            
+        if d == "D":
+            y += n
+        
+        xs.append(x)
+        ys.append(y)
+
     print("Result Second Star")
- 
+    print(shoelace(xs,ys,b))
+
 if __name__ == '__main__':
     main()

@@ -32,6 +32,7 @@ def first_star():
         r,c  = q.popleft()
         ch = input[r][c]
         
+        # Go up if current Char can go North (up) and receiving char can accept Down (South)
         if r > 0 and ch in down_allowed and input[r - 1][c] in up_allowed and (r - 1, c) not in loop:
             loop.add((r - 1, c))
             q.append((r - 1, c))
