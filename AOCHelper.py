@@ -988,10 +988,21 @@ def find_mirror2(grid):
 
     return 0
 
-def shoelace(xs,ys,n_outsides):
+def shoelace_outsides(xs,ys,n_outsides):
     # Gets the full area filled 
     assert len(xs) == len(ys)
     if n_outsides:
         n_outsides = n_outsides // 2 + 1 
-    intern = abs(sum((ys[i] +ys[i+1]) * (xs[i] - xs[i+1]) for i in range(len(xs)-1))) // 2
+    intern = abs(sum((ys[i] + ys[i+1]) * (xs[i] - xs[i+1]) for i in range(len(xs)-1))) // 2
     return intern + n_outsides
+
+def shoelace(xs,ys):
+    assert len(xs) == len(ys)   
+    result = 0
+    for i in range(len(xs)-1):
+        result += xs[i] * ys[i+1] - ys[i] * xs[i+1]
+        
+    return abs((result + xs[len(xs)-1] * ys[0]- ys[len(ys)-1] * xs[0]) // 2)
+
+def find_char_in_grid(grid,char):
+    return [(c,r) for r,row in enumerate(grid) for c, ch in enumerate(row) if ch==char]

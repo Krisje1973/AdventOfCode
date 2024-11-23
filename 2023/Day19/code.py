@@ -24,7 +24,7 @@ def readinput(filename):
     
 def main():
    readinput("input.txt")
-   #first_star()
+   first_star()
    second_star()
 
 def first_star():
