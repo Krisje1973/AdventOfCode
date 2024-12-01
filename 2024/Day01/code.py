@@ -13,20 +13,24 @@ def readinput(filename):
 def main():
    readinput("input.txt")
    first_star()       
-
    second_star()
 
 def first_star():
-    result = 0
-    print("Result First Star")
-    print(result)
+    l, r = map(list,zip(*[map(int, line.split()) for line in input]))
+    l.sort()
+    r.sort() 
    
+    print("Result First Star")
+    print(sum(abs(l - r) for l,r in zip(l, r)))
 
 def second_star():
     result = 0
-        
+    l, r = map(list,zip(*[map(int, line.split()) for line in input]))
+    l.sort()
+    r.sort() 
+ 
     print("Result Second Star")
-    print(result)
+    print(sum(c * r.count(c) for c in l))
 
 if __name__ == '__main__':
     main()
