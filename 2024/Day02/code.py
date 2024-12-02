@@ -32,20 +32,10 @@ def second_star():
     for line in input:
         l = np.array(list(map(int, line.split())))
         if not check(l):
-            ch = []
-            for i,c in enumerate(l):
-                if i+1 == len(l): continue
-                a = [l[i],l[i+1]]
-                if not check(a):
-                    ch.append(i)
-                    ch.append(i+1)
-            
-            for c in ch:
-                if check(np.delete(l,c)):
+            for i,x in enumerate(l):
+                if check(np.delete(l,i)):
                     result+=1
                     break
-                    
-                        
         else : result+=1
  
     print("Result Second Star")
