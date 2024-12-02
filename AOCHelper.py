@@ -6,6 +6,7 @@ from queue import PriorityQueue
 from queue import Queue
 import heapq
 from math import inf
+import numpy as np
 
 def open_file(filename) :
     return open(filename).read()
