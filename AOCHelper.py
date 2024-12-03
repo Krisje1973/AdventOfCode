@@ -52,7 +52,7 @@ def readinput_lines_no_strip_no_enter(filename):
 
 def readinput_as_string(filename):   
     file = open(filename, "r")    
-    return [line for line in file]
+    return ''.join(line for line in file)
 
 def readinput_lines_skip_enters(filename):   
     file = open(filename, "r")    
