@@ -10,38 +10,34 @@ input = []
 def readinput(filename):
     filename = f"{os.path.dirname(__file__)}\{filename}"
     global input
-    input = readinput_lines(filename)
+    input = readinput_lines_as_int_list(filename)
     
 def main():
    readinput("input.txt")
-   #first_star()       
+   first_star()       
    second_star()
 
 def first_star():
     result = 0
     for line in input:
-        l = np.array(list(map(int, line.split())))
-        result += check(l)
+        result += check(line)
 
     print("Result First Star")
     print(result)
 
-
 def second_star():
     result = 0
     for line in input:
-        l = np.array(list(map(int, line.split())))
-        if not check(l):
-            for i,x in enumerate(l):
-                if check(np.delete(l,i)):
+        if not check(line):
+            for i,x in enumerate(line):
+                if check(np.delete(line,i)):
                     result+=1
                     break
-        else : result+=1
+        else: result+=1
  
     print("Result Second Star")
     print(result)
 
-  
 def check(l):
     diff = np.diff(l)
     return (np.all(diff >= 0) or np.all(diff <= 0)) and (np.all(abs(diff) < 4) and np.all(abs(diff)>0))   
