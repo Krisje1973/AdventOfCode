@@ -528,10 +528,10 @@ class TupleHelper():
         if neighbourtype == NeighbourghType.INCLUDEDIAGONALS or neighbourtype == NeighbourghType.ONLYDIAGIONALS:
             directions = [*directions,*
             [
-                (1, 1),   # Diagonaal rechtsboven
                 (1, -1),  # Diagonaal rechtsonder
                 (-1, 1),  # Diagonaal linksboven
-                (-1, -1)  # Diagonaal linksonder
+                (-1, -1), # Diagonaal linksonder
+                (1, 1)    # Diagonaal rechtsboven
             ]]
 
         results = []
@@ -545,7 +545,7 @@ class TupleHelper():
                 else:
                     break 
 
-            results.append(path[excludestart:])
+            results = [*results,*path[excludestart:]]
 
         return results
 

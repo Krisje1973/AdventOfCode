@@ -23,7 +23,7 @@ def first_star():
         for x,col in enumerate(row):
             if col =="X":
                 ne = TupleHelper().get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS)
-                xmas+= "".join([input[oy][ox] for offset in ne  for ox,oy in offset])
+                xmas+= "".join([input[oy][ox] for ox,oy in ne])
                    
     print("Result First Star")
     print(xmas.count("XMAS"))
@@ -43,6 +43,7 @@ def second_star():
         for x,col in enumerate(row):
             if col =="A" and y > 0 and y < len(input) -1 and x > 0 and x < len(row) -1:
                 xmas = ""
+                ne = TupleHelper().get_neighbours((x,y),1,(len(row),len(input)),NeighbourghType.ONLYDIAGIONALS,True)
                 for d in dl:
                     ox,oy = d
                     ox+=x
