@@ -18,13 +18,11 @@ def main():
    second_star()
 
 def first_star():
-    result = 0
-    th=TupleHelper()
     xmas = ""
     for y,row in enumerate(input):
         for x,col in enumerate(row):
             if col =="X":
-                ne = th.get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS)
+                ne = TupleHelper().get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS)
                 xmas+= "".join([input[oy][ox] for offset in ne  for ox,oy in offset])
                    
     print("Result First Star")
