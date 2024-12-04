@@ -20,20 +20,15 @@ def main():
 def first_star():
     result = 0
     th=TupleHelper()
-
+    xmas = ""
     for y,row in enumerate(input):
         for x,col in enumerate(row):
             if col =="X":
                 ne = th.get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS)
-                xmas = ""
-                for offset in ne:
-                    for o in offset:
-                        ox,oy = o
-                        xmas+= input[oy][ox]
-                result+= xmas.count("XMAS")
-
+                xmas+= "".join([input[oy][ox] for offset in ne  for ox,oy in offset])
+                   
     print("Result First Star")
-    print(result)
+    print(xmas.count("XMAS"))
 
 def second_star():
     result = 0
