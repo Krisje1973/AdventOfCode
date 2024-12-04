@@ -30,36 +30,12 @@ def first_star():
 
 def second_star():
     result = 0
-    th=TupleHelper()
-    dl = [
-        (1, -1),  # Diagonaal rechtsonder
-        (-1, 1),  # Diagonaal linksboven
-    ]
-    dr = [
-        (1, 1),   # Diagonaal rechtsboven
-        (-1, -1),  # Diagonaal linksonder
-    ]
     for y,row in enumerate(input):
         for x,col in enumerate(row):
-            if col =="A" and y > 0 and y < len(input) -1 and x > 0 and x < len(row) -1:
-                xmas = ""
+            if col =="A":
                 ne = TupleHelper().get_neighbours((x,y),1,(len(row),len(input)),NeighbourghType.ONLYDIAGIONALS,True)
-                for d in dl:
-                    ox,oy = d
-                    ox+=x
-                    oy+=y
-                    xmas+= input[oy][ox]
-                
-                ok = (xmas.count("M")and xmas.count("S"))
-
-                xmas = ""
-                for d in dr:
-                    ox,oy = d
-                    ox+=x
-                    oy+=y
-                    xmas+= input[oy][ox]
-                
-                result += (xmas.count("M")== 1 and xmas.count("S") == 1) and ok
+                xmas = "".join([input[oy][ox] for ox,oy in ne])
+                result += (xmas[0:2].count("M") == 1 and xmas[0:2].count("S") == 1 and xmas.count("M") == 2 and xmas.count("S") == 2)
 
     print("Result Second Star")
     print(result)
