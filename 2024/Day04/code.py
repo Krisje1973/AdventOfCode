@@ -17,7 +17,6 @@ def main():
    first_star()       
    second_star()
 
-
 def first_star():
     result = 0
     th=TupleHelper()

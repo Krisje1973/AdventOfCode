@@ -511,21 +511,21 @@ class TupleHelper():
             yield (nx, ny)
 
 
-    def get_neighbours(self,start, offset, grid_limits, neighbourtype:NeighbourghType = 2):
+    def get_neighbours(self,start, offset, grid_limits, neighbourtype:NeighbourghType = 2,excludestart=False):
        
         # th.get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS) 
         x, y = start
         max_row, max_col = grid_limits
         directions = [] 
 
-        if not neighbourtype.ONLYDIAGIONALS:
+        if not neighbourtype == neighbourtype.ONLYDIAGIONALS:
             directions = [
                 (1, 0),   # Rechts
                 (-1, 0),  # Links
                 (0, 1),   # Boven
                 (0, -1),  # Onder
             ]
-        if neighbourtype == NeighbourghType.INCLUDEDIAGONALS:
+        if neighbourtype == NeighbourghType.INCLUDEDIAGONALS or neighbourtype == NeighbourghType.ONLYDIAGIONALS:
             directions = [*directions,*
             [
                 (1, 1),   # Diagonaal rechtsboven
@@ -545,36 +545,10 @@ class TupleHelper():
                 else:
                     break 
 
-            results.append(path)
+            results.append(path[excludestart:])
 
         return results
-            
-    def get_neighboursdia_with_boundaries(self,start, offset, grid_limits):
-        x, y = start
-        max_row, max_col = grid_limits
 
-        directions = [
-            (1, 1),   # Diagonaal rechtsboven
-            (1, -1),  # Diagonaal rechtsonder
-            (-1, 1),  # Diagonaal linksboven
-            (-1, -1)  # Diagonaal linksonder
-        ]
-
-        results = []
-        for dx, dy in directions:
-            path = []
-            for i in range(offset + 1):
-                new_x = x + i * dx
-                new_y = y + i * dy
-                if 0 <= new_x < max_row and 0 <= new_y < max_col:
-                    if not path.count((new_x, new_y)):
-                        path.append((new_x, new_y))
-                else:
-                    break 
-
-            results.append(path)
-
-        return results
 
     def get_neighbours_with_bounderies(self,tuple,bound,allowunderzero=False):
         r,c = tuple
