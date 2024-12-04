@@ -11,21 +11,63 @@ def readinput(filename):
     filename = f"{os.path.dirname(__file__)}\{filename}"
     global input
     input = readinput_lines(filename)
-    
+
 def main():
    readinput("input.txt")
-   first_star()       
+   #first_star()       
    second_star()
+
 
 def first_star():
     result = 0
-  
+    th=TupleHelper()
+
+    for y,row in enumerate(input):
+        for x,col in enumerate(row):
+            if col =="X":
+                ne = th.get_neighbours_with_dia_with_boundaries((x,y),3,(len(row),len(input)))
+                xmas = ""
+                for offset in ne:
+                    for o in offset:
+                        ox,oy = o
+                        xmas+= input[oy][ox]
+                result+= xmas.count("XMAS")
+
     print("Result First Star")
     print(result)
 
 def second_star():
     result = 0
-   
+    th=TupleHelper()
+    dl = [
+        (1, -1),  # Diagonaal rechtsonder
+        (-1, 1),  # Diagonaal linksboven
+    ]
+    dr = [
+        (1, 1),   # Diagonaal rechtsboven
+        (-1, -1),  # Diagonaal linksonder
+    ]
+    for y,row in enumerate(input):
+        for x,col in enumerate(row):
+            if col =="A" and y > 0 and y < len(input) -1 and x > 0 and x < len(row) -1:
+                xmas = ""
+                for d in dl:
+                    ox,oy = d
+                    ox+=x
+                    oy+=y
+                    xmas+= input[oy][ox]
+                
+                ok = (xmas.count("M")== 1 and xmas.count("S") == 1)
+
+                xmas = ""
+                for d in dr:
+                    ox,oy = d
+                    ox+=x
+                    oy+=y
+                    xmas+= input[oy][ox]
+                
+                result += (xmas.count("M")== 1 and xmas.count("S") == 1) and ok
+
     print("Result Second Star")
     print(result)
 

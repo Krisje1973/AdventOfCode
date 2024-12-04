@@ -503,7 +503,65 @@ class TupleHelper():
         x,y = tuple
         for nx, ny in (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1):
             yield (nx, ny)
-    
+
+
+    def get_neighbours_with_dia_with_boundaries(self,start, offset, grid_limits):
+        x, y = start
+        max_row, max_col = grid_limits
+
+        directions = [
+            (1, 0),   # Rechts
+            (-1, 0),  # Links
+            (0, 1),   # Boven
+            (0, -1),  # Onder
+            (1, 1),   # Diagonaal rechtsboven
+            (1, -1),  # Diagonaal rechtsonder
+            (-1, 1),  # Diagonaal linksboven
+            (-1, -1)  # Diagonaal linksonder
+        ]
+
+        results = []
+        for dx, dy in directions:
+            path = []
+            for i in range(offset + 1):
+                new_x = x + i * dx
+                new_y = y + i * dy
+                if 0 <= new_x < max_row and 0 <= new_y < max_col:
+                    path.append((new_x, new_y))
+                else:
+                    break 
+
+            results.append(path)
+
+        return results
+            
+    def get_neighboursdia_with_boundaries(self,start, offset, grid_limits):
+        x, y = start
+        max_row, max_col = grid_limits
+
+        directions = [
+            (1, 1),   # Diagonaal rechtsboven
+            (1, -1),  # Diagonaal rechtsonder
+            (-1, 1),  # Diagonaal linksboven
+            (-1, -1)  # Diagonaal linksonder
+        ]
+
+        results = []
+        for dx, dy in directions:
+            path = []
+            for i in range(offset + 1):
+                new_x = x + i * dx
+                new_y = y + i * dy
+                if 0 <= new_x < max_row and 0 <= new_y < max_col:
+                    if not path.count((new_x, new_y)):
+                        path.append((new_x, new_y))
+                else:
+                    break 
+
+            results.append(path)
+
+        return results
+
     def get_neighbours_with_bounderies(self,tuple,bound,allowunderzero=False):
         r,c = tuple
         maxr,maxc = bound

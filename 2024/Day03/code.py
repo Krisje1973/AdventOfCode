@@ -29,12 +29,17 @@ def first_star():
 
 def second_star():
 
+    #
+    # Better regex could be:
+    # matches = re.findall(r"mul\((\d+),(\d+)\)|(don't\(\))|(do\(\))",input)
+    # for a,b,c,d in matches:
+    #    print(a)    
+   
     result = 0
     idx = 0
-    cur = 0
     ins = []
     muls= []
-    
+   
     for mul in re.findall(r'mul\([0-9]+,[0-9]+\)', input):
         muls.append(mul.strip())
         ins.append(mul.replace("mul(","").replace(")","").replace(",","*"))
@@ -45,7 +50,6 @@ def second_star():
 
         dont = input[:idx].rfind("don't()") > input[:idx].rfind("do()") and input[:idx].rfind("don't()") >-1
         if not dont : result+= eval(op)
-        cur = max(input[cur:idx].rfind("don't()") , input[cur:idx].rfind("do()"))    
            
   
     print("Result Second Star")
