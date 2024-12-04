@@ -14,7 +14,7 @@ def readinput(filename):
 
 def main():
    readinput("input.txt")
-   #first_star()       
+   first_star()       
    second_star()
 
 
@@ -25,7 +25,7 @@ def first_star():
     for y,row in enumerate(input):
         for x,col in enumerate(row):
             if col =="X":
-                ne = th.get_neighbours_with_dia_with_boundaries((x,y),3,(len(row),len(input)))
+                ne = th.get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS)
                 xmas = ""
                 for offset in ne:
                     for o in offset:
@@ -57,7 +57,7 @@ def second_star():
                     oy+=y
                     xmas+= input[oy][ox]
                 
-                ok = (xmas.count("M")== 1 and xmas.count("S") == 1)
+                ok = (xmas.count("M")and xmas.count("S"))
 
                 xmas = ""
                 for d in dr:

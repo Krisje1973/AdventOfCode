@@ -7,6 +7,7 @@ from queue import Queue
 import heapq
 from math import inf
 import numpy as np
+from enum import Enum
 
 def open_file(filename) :
     return open(filename).read()
@@ -495,6 +496,11 @@ class Compass:
         idx %= len(dirs)
         return (dirs[idx:] + dirs[:idx])[0]     
 
+class NeighbourghType(Enum):
+        INCLUDEDIAGONALS = 1
+        EXCLUDEDIAGONALS = 2
+        ONLYDIAGIONALS = 3
+
 class TupleHelper():
     def add_tuples(self,tuple1,tuple2):
         return tuple(sum(tup) for tup in zip(tuple1,  tuple2))
@@ -505,20 +511,28 @@ class TupleHelper():
             yield (nx, ny)
 
 
-    def get_neighbours_with_dia_with_boundaries(self,start, offset, grid_limits):
+    def get_neighbours(self,start, offset, grid_limits, neighbourtype:NeighbourghType = 2):
+       
+        # th.get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS) 
         x, y = start
         max_row, max_col = grid_limits
+        directions = [] 
 
-        directions = [
-            (1, 0),   # Rechts
-            (-1, 0),  # Links
-            (0, 1),   # Boven
-            (0, -1),  # Onder
-            (1, 1),   # Diagonaal rechtsboven
-            (1, -1),  # Diagonaal rechtsonder
-            (-1, 1),  # Diagonaal linksboven
-            (-1, -1)  # Diagonaal linksonder
-        ]
+        if not neighbourtype.ONLYDIAGIONALS:
+            directions = [
+                (1, 0),   # Rechts
+                (-1, 0),  # Links
+                (0, 1),   # Boven
+                (0, -1),  # Onder
+            ]
+        if neighbourtype == NeighbourghType.INCLUDEDIAGONALS:
+            directions = [*directions,*
+            [
+                (1, 1),   # Diagonaal rechtsboven
+                (1, -1),  # Diagonaal rechtsonder
+                (-1, 1),  # Diagonaal linksboven
+                (-1, -1)  # Diagonaal linksonder
+            ]]
 
         results = []
         for dx, dy in directions:
