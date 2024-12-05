@@ -1,4 +1,4 @@
-from functools import reduce
+import functools
 from collections import defaultdict,deque 
 import sys
 import re
