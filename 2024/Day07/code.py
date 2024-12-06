@@ -6,12 +6,27 @@ sys.path.append("C:\DevOps\github\AdventOfCode")
 
 from AOCHelper import * 
 input = []
+update = []
+order = []
+
 
 def readinput(filename):
     filename = f"{os.path.dirname(__file__)}\{filename}"
     global input
-   
+    global update
+    global order
+
     input = readinput_lines(filename)
+    o = True
+    for line in input:
+        if len(line) == 0:
+            b = False
+            continue
+        if b:
+            order.append(line)
+        else:
+            update.append(line)
+    print(order)
     
 def main():
    readinput("input.txt")
@@ -20,33 +35,9 @@ def main():
 
 def first_star():
     result = 0
-    start = (0,0)
-    ch  = Compass()
-    for y,row in enumerate(input):
-        for x,col in enumerate(row):
-            if col == "^": 
-                start = (x,y)
-    dir = "N"
-    maxcol = len(input[0])
-    maxrow = len(input)
-    seen = set()
-    while True:
-        move = ch.getHexasPoints(dir)
-        x,y  = start
-        mx,my = move[0]
-        mx+=x
-        my+=y
-        if mx == -1 or mx == maxcol or my == -1 or my == maxrow:
-            break    
-        if input[my][mx] == "#":
-            dir = ch.turnCompassPoint(dir,"",90)
-            continue
-
-        seen.add((mx,my))
-        start = (mx,my)
-       
+  
     print("Result First Star")
-    print(len(seen))
+    print(result)
 
 def second_star():
     result = 0
