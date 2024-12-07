@@ -14,8 +14,8 @@ def readinput(filename):
     input = readinput_lines(filename)
     
 def main():
-   readinput("input.txt")
-   first_star()       
+   readinput("input_ex.txt")
+   #first_star()       
    second_star()
 
 def first_star():
@@ -50,6 +50,38 @@ def first_star():
 
 def second_star():
     result = 0
+    start = (0,0)
+    ch  = Compass()
+    for y,row in enumerate(input):
+        for x,col in enumerate(row):
+            if col == "^": 
+                start = (x,y)
+    dir = "N"
+    maxcol = len(input[0])
+    maxrow = len(input)
+    seen = set(start)
+    cross = 0
+    while True:
+        move = ch.getHexasPoints(dir)
+        x,y  = start
+        mx,my = move[0]
+        mx+=x
+        my+=y
+        if mx == -1 or mx == maxcol or my == -1 or my == maxrow:
+            break    
+        if input[my][mx] == "#":
+            dir = ch.turnCompassPoint(dir,"",90)
+            cross+=1
+            continue
+
+        if (mx,my) in seen:
+            cross+=1
+
+        if cross == 4:
+            cross = 0
+            result+=1      
+        seen.add((mx,my))
+        start = (mx,my)
    
     print("Result Second Star")
     print(result)
