@@ -14,17 +14,17 @@ def readinput(filename):
     input = readinput_lines(filename)
     
 def main():
-   readinput("input_ex.txt")
-   first_star()       
+   readinput("input.txt")
+   #first_star()       
    second_star()
 
 def first_star():
     result = 0
     
     for line in input:
-        test, operators = line.split(":")
+        test, values = line.split(":")
         test = int(test)   
-        values = list([*map(int,operators.split())])    
+        values = list([*map(int,values.split())])    
      
         if can_add_or_multiply(test, values):
             result += test
@@ -34,18 +34,41 @@ def first_star():
 
 def can_add_or_multiply(test,values):
     last = values[-1]
+    rest = values[:-1]
     if len(values) == 1: return test == last                                           
 
-    # Divide 
-    if test % last == 0 and can_add_or_multiply(test // last, values[:-1]): return True
+    # Dividable, so multiply  
+    if test % last == 0 and can_add_or_multiply(test // last, rest): return True
 
     # Add
-    if test > last and can_add_or_multiply(test - last,values[:-1]): return True
+    if test > last and can_add_or_multiply(test - last, rest): return True
 
     return False
 
+def all_results(values):
+    if len(values) == 1: 
+        return {values[0]}
+
+    last = values[-1]
+    al = set() 
+    for val in all_results(values[:-1]):
+        val = int(val)
+        al.add(val * last)
+        al.add(val + last)
+        al.add(int(str(val)+str(last)))
+
+    return al
+
 def second_star():
     result = 0
+
+    for line in input:
+        test, values = line.split(":")
+        test = int(test)   
+        values = list([*map(int,values.split())])    
+     
+        if test in all_results(values):
+            result += test
    
     print("Result Second Star")
     print(result)
