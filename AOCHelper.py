@@ -511,7 +511,7 @@ class TupleHelper():
             yield (nx, ny)
 
 
-    def get_neighbours(self,start, offset, grid_limits, neighbourtype:NeighbourghType = 2,excludestart=False):
+    def get_neighbours(self,start, offset, grid_limits, neighbourtype:NeighbourghType = NeighbourghType.EXCLUDEDIAGONALS,excludestart=False):
        
         # th.get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS) 
         x, y = start
@@ -547,7 +547,7 @@ class TupleHelper():
 
             results = [*results,*path[excludestart:]]
 
-        return results
+        return set(results)
 
 
     def get_neighbours_with_bounderies(self,tuple,bound,allowunderzero=False):

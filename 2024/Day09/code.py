@@ -17,12 +17,11 @@ def readinput(filename):
    
     input = list(map(int,readinput_lines(filename)[0]))
     files = [x for i,x in enumerate(input) if i % 2 == 0]
-
-    spaces = [x for i,x in enumerate(input) if i % 2 != 0]
+    spaces = [x for i,x in enumerate(input) if i % 2 != 0 and x > 0]
     
 def main():
-   readinput("input.txt")
-   first_star()       
+   readinput("input_ex.txt")
+   #first_star()       
    second_star()
 
 def first_star():
@@ -32,7 +31,7 @@ def first_star():
     empties = [0 for s in spaces for _ in range(s)]   
     for i,_ in enumerate(empties):
         empties[i] = file_list[i]
-    
+
     empties.reverse()
     end = len(file_list)
     full = []
@@ -55,7 +54,26 @@ def first_star():
 
 def second_star():
     result = 0
-   
+    ids = len(files) -1
+    file_list = [ids-id for id,file in enumerate(files[::-1]) for _ in range(file)]
+    empties = [0 for s in spaces for _ in range(s)]   
+    for i,_ in enumerate(empties):
+        empties[i] = file_list[i]
+
+    empties.reverse()
+    end = len(file_list)
+    full = []
+    
+    for i,num in enumerate(input):
+        if len(full) == end: break
+        if i % 2 == 0:
+            for j  in range(num):
+                full.append(file_list.pop())
+        else:
+            for j in range(num):
+                if len(empties) > 0:    
+                    full.append(empties.pop())
+                else: full.append(file_list.pop())
     print("Result Second Star")
     print(result)
 
