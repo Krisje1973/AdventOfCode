@@ -55,28 +55,35 @@ def first_star():
 def second_star():
     result = 0
     ids = len(files) -1
-    file_list = [ids-id for id,file in enumerate(files[::-1]) for _ in range(file)]
-    empties = [0 for s in spaces for _ in range(s)]   
-    for i,_ in enumerate(empties):
-        empties[i] = file_list[i]
-
-    empties.reverse()
-    end = len(file_list)
     full = []
-    
+    file_list = [(ids-id,file) for id,file in enumerate(files[::-1]) for _ in range(file)]
+       
     for i,num in enumerate(input):
-        if len(full) == end: break
         if i % 2 == 0:
             for j  in range(num):
                 full.append(file_list.pop())
         else:
             for j in range(num):
-                if len(empties) > 0:    
-                    full.append(empties.pop())
-                else: full.append(file_list.pop())
+                full.append((-1,num))
+    new = [file for file in full]            
+    for id,le in full[::-1]:
+        if id == -1: continue
+        #empty = [(i,l) for i,l in full[::-1] if i == -1 and l >= le]
+        empty = [(idx,file) for idx,file in enumerate(new) if file[0] == -1 and file[1] >= le]
+        if len(empty):
+            idx,file = empty[0]
+            file = (id,file[1]-le+1)
+            new[idx] = file
+           # for i in range(le):
+            #full.pop(-1)
     print("Result Second Star")
-    print(result)
+    for i,val in enumerate(new):
+        if val[0] > -1:
+            result += i*val[0]
 
+    print(new)
+    print(result)
+    print(len("00...111...2...333.44.5555.6666.777.888899"))
 if __name__ == '__main__':
     main()
 
