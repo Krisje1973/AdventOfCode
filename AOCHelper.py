@@ -1,4 +1,5 @@
 import functools
+from functools import cache
 from collections import defaultdict,deque 
 import sys
 import re
@@ -505,10 +506,14 @@ class TupleHelper():
     def add_tuples(self,tuple1,tuple2):
         return tuple(sum(tup) for tup in zip(tuple1,  tuple2))
         
-    def get_neighbours(self,tuple):
+    def get_neighbours4(self,tuple):
         x,y = tuple
         for nx, ny in (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1):
             yield (nx, ny)
+
+    def get_neighbours_array(self,tuple):
+        x,y = tuple
+        return [(y + 1, x), (y - 1, x), (y, x - 1), (y, x + 1)]
 
 
     def get_neighbours(self,start, offset, grid_limits, neighbourtype:NeighbourghType = NeighbourghType.EXCLUDEDIAGONALS,excludestart=False):
