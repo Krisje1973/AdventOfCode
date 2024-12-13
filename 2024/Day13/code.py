@@ -8,16 +8,43 @@ input = []
 def readinput(filename):
     filename = f"{os.path.dirname(__file__)}\{filename}"
     global input
-    input = readinput_lines(filename)
     
+    input = readinput_as_pairs(filename)
+   
 def main():
    readinput("input.txt")
    first_star()
    second_star()
 
 def first_star():
+    claws = {}
+    result = 0
+    pattern = r"(Button A|Button B|Prize):\s*X[+=]?(\d+),\s*Y[+=]?(\d+)"
+    for line in input:
+        for claw in line:
+            key, x, y = re.match(pattern,claw).groups()
+            claws[key] = (int(x), int(y))
+
+        ax,ay = claws["Button A"]
+        bx,by = claws["Button B"]
+        px,py = claws["Prize"]
+
+        buta = set()
+        for i in range(100):
+            for j in range(100):
+                if px == (ax * i) + (bx * j): 
+                    buta.add((i,j))
+        butb = set()
+        for i in range(100):
+            for j in range(100):
+                if py == (ay * i) + (by * j): 
+                    butb.add((i,j))
+
+        wins = buta.intersection(butb)
+        result+= sum(a*3+b*1 for a,b in wins)
+        
     print("Result First Star")
-    print(input)
+    print(result)
  
 def second_star():
     print("Result Second Star")
