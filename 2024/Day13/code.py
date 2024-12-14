@@ -13,7 +13,7 @@ def readinput(filename):
    
 def main():
    readinput("input.txt")
-   first_star()
+   #first_star()
    second_star()
 
 def first_star():
@@ -45,9 +45,34 @@ def first_star():
         
     print("Result First Star")
     print(result)
- 
+
 def second_star():
+    #875318608908 to low
+    claws = {}
+    result = 0
+    pattern = r"(Button A|Button B|Prize):\s*X[+=]?(\d+),\s*Y[+=]?(\d+)"
+    for line in input:
+        for claw in line:
+            key, x, y = re.match(pattern,claw).groups()
+            claws[key] = (int(x), int(y))
+
+        ax,ay = claws["Button A"]
+        bx,by = claws["Button B"]
+        px,py = claws["Prize"]
+
+        px += 10000000000000
+        py += 10000000000000
+
+        # Point of intersection
+        
+
+        ca = (px * by - py * bx) / (ax * by - ay * bx)
+        cb = (px - ax * ca) / bx
+        if ca % 1 == cb % 1 == 0:
+            result += int(ca * 3 + cb)
+     
+    
     print("Result Second Star")
- 
+    print(result)
 if __name__ == '__main__':
     main()
