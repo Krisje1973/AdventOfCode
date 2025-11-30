@@ -1,7 +1,7 @@
 import os, sys
 from re import Pattern
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
+sys.path.append("C:\DevOps\AdventOfCode")
 from AOCHelper import * 
 input = []
 
@@ -29,7 +29,7 @@ def first_star():
     print(sum(abs(l - r) for l,r in zip(l, r)))
 
 def second_star():
-    l, r = parseInput()
+    l, r = parseInput() 
  
     print("Result Second Star")
     print(sum(c * r.count(c) for c in l))
