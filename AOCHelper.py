@@ -9,7 +9,7 @@ import heapq
 from math import inf
 import numpy as np
 from enum import Enum
-
+ 
 def open_file(filename) :
     return open(filename).read()
 
