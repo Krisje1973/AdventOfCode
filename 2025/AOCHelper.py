@@ -78,7 +78,23 @@ def readinput_lines_as_ints_with_separator(filename,separator):
         for val in line:
             input.append(int(val)) 
     return input
-    
+
+def get_lowest_digits(s, count):
+    #Unique digits then s = sorted(set(map(int, s)))
+    s = sorted(map(int, s))
+    return s[:count]
+
+def get_highest_digit_number(s,length):
+    to_remove = len(s) - length
+    high = s[0]
+    for digit in s[1:]:
+        while high and to_remove > 0 and high[-1] < digit:
+            high = high[:-1]
+            to_remove -= 1
+        high += digit
+
+    return int(high[:length])
+
 def removekeyfromdict(d, key):
    r = dict(d)
    if key in d.keys():
