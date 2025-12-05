@@ -14,7 +14,6 @@ def readinput(filename):
     rang = [r.split("-") for r in rang]
     ranges = reduce_overlap_ranges(rang)
     
-    
 def main(): 
    readinput("input.txt")
    first_star()
@@ -31,9 +30,9 @@ def first_star():
  
 def second_star():
     result = 0
-    
     for s,e in ranges:
         result += e+1-s
+        
     print("Result Second Star")
     print(result)
  
