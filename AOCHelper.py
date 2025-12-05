@@ -105,6 +105,21 @@ def char_position(letter):
 def pos_to_char(pos):
     return chr(pos + 97)
 
+def get_lowest_digits(s, count):
+    #Unique digits then   s = sorted(set(map(int, s)))
+    s = sorted(map(int, s))
+    return s[:count]
+
+def get_highest_digit_number(s,length):
+    to_remove = len(s) - length
+    high = s[0]
+    for digit in s[1:]:
+        while high and to_remove > 0 and high[-1] < digit:
+            high = high[:-1]
+            to_remove -= 1
+        high += digit
+
+    return int(high[:length])
 
 """ A Python Class
 A simple Python graph class, demonstrating the essential 
@@ -734,6 +749,9 @@ class RegexHelper():
             
         return False
 
+    def has_repeating_pattern(self,str):
+        return bool(re.match(r'^(.+)\1+$', str))
+
 class IndexedReader():
     def __init__(self,input:str,start:int=0):
       self.input = input
@@ -1041,6 +1059,27 @@ def find_mirror2(grid):
             return r
 
     return 0
+
+# Reduce overlapping ranges in a list of ranges
+# Ex input: [[1-3],[2-4],[5-7],[6-8]]
+# Ex output: [[1,4],[5,8]]
+def reduce_overlap_ranges(rang):
+    ranges = []
+    rang.sort()
+    for r in rang:
+        s, e = map(int,r)
+        ranges.sort()
+        if len(ranges) == 0:
+            ranges.append([s,e])
+        for r in ranges:
+            if max(r[0],s) <= min(r[1], e):
+                r[0] = min(r[0], s)
+                r[1] = max(r[1], e)
+                break
+        else:
+            ranges.append([s,e]) 
+
+    return ranges
 
 def shoelace_outsides(xs,ys,n_outsides):
     # Gets the full area filled 

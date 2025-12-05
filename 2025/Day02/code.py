@@ -1,6 +1,6 @@
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
+sys.path.append("C:\DevOps\AdventOfCode")
 from  AOCHelper import * 
 input = []
 def readinput(filename):
@@ -28,17 +28,11 @@ def first_star():
 
 def second_star():
     result = 0
+    rg = RegexHelper()
     for id in input:
         s,e = map(int,id.split("-"))
         for i in range(s,e+1): 
-            s = str(i)
-            len_s = len(s)
-            l = len(s) // 2
-            for j in range(1,l+1):
-                c = s.count( s[:j])
-                if c == len_s / j:
-                    result += i
-                    break
+            result += i if rg.has_repeating_pattern(str(i)) else 0
 
     print("Result Second Star")
     print(result)
