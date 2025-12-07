@@ -23,29 +23,28 @@ def first_star():
     beams.add(start)
     seen = set()
     splitters = set()
-    maxx = len(input[0])
-    maxy = len(input)
+    maxx = len(input[0]) -1
+    maxy = len(input) -1
 
     result = 0
     while beams:
         x,y = beams.pop()
-        seen.add((x,y))
+        if (x,y) in seen:
+            continue
+
+        nexty = min(y+1,maxy)
+       
         if input[y][x] == "^":
             result += 1
-            splitters.add((x,y))
-            for npos in gh.get_adjacent_pos_with_diag(x,y,maxx,maxy):
-                xx,yy = npos
-                if yy <= y or xx == x:
-                    continue
-                if npos not in seen:
-                    beams.add(npos)
+            print(f"Hit target at {(x,y)} total {result}")
+            beams.add((x-1,nexty))
+            beams.add((x+1,nexty))
         else:
-            if y == 14:
-                pass
-            if y == maxy -1:
+            if y == maxy:
                 continue
-            beams.add((min(x,maxx),min(y+1,maxy)))
-    
+            beams.add((min(x,maxx),nexty))
+        
+        seen.add((x,y))
     print("Result First Star")
     print(result)
     print([x for x,y in splitters if y==14])
