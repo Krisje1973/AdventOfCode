@@ -6,14 +6,16 @@ sys.path.append("C:\DevOps\AdventOfCode")
 from  AOCHelper import * 
 input = []
 def readinput(filename):
-    filename = f"{os.path.dirname(__file__)}\{filename}"
     global input
-    input = readinput_lines_no_strip_no_enter(filename)
+    input = readinput_lines(filename)
     
 def main():
-   readinput("input.txt")
-   #first_star()
-   second_star()
+    filename = "input_ex.txt"
+    filename = f"{os.path.dirname(__file__)}\{filename}"
+    readinput(filename)
+    #first_star()
+    #second_star(filename)
+    first_star_optimized()
 
 def first_star():
     rh  = RegexHelper()
@@ -40,9 +42,9 @@ def first_star():
     print("Result First Star")
     print(result)
 
-def second_star():
+def second_star(filename):
     # 11090355591833 to high
-    
+    input = readinput_lines_no_strip_no_enter(filename)
     nums = {}
     for line in input:
         for idx,s in enumerate(line):
@@ -77,6 +79,15 @@ def second_star():
          
     print("Result Second Star")
     print(result)
- 
+
+def first_star_optimized():
+    lines = [line.split() for line in input]
+    cols = list(zip(*lines))
+    result = 0
+    for *col,op in cols:
+        result += eval(op.join(col))
+
+    print("Result First Star Optimized")
+    print(result)
 if __name__ == '__main__':
     main()
