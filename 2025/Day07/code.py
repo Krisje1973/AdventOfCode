@@ -60,7 +60,7 @@ def drop_beam(x,y):
     
 def second_star():
   
-    print("Result First Star")
+    print("Result Second Star")
     print(drop_beam(*get_start()))
 
 def get_start():
