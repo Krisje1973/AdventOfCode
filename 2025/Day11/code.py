@@ -11,7 +11,7 @@ def readinput(filename):
     input = readinput_lines(filename)
     
 def main():
-   readinput("input.txt")
+   readinput("input_ex.txt")
    first_star()
    second_star()
 
