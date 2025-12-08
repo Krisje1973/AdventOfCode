@@ -2,7 +2,7 @@ import math
 import functools ,itertools
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
+sys.path.append("C:\DevOps\AdventOfCode")
 from  AOCHelper import * 
 input = []
 def readinput(filename):
