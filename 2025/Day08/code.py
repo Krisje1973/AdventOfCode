@@ -1,5 +1,3 @@
-import math
-import functools ,itertools
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append("C:\DevOps\AdventOfCode")
@@ -12,7 +10,7 @@ def readinput(filename):
     
 def main():
    readinput("input.txt")
-   first_star()
+   #first_star()
    second_star()
 
 def first_star():
@@ -22,7 +20,7 @@ def first_star():
 
     shortest = []
     boxes = get_all_distances(junctions)
-    shortest = sorted(boxes, key=boxes.get)[:1000]  
+    shortest = sorted(boxes, key=boxes.get)[:10]  
 
     dists = []
     for box in find_all_connected(shortest):
@@ -38,63 +36,34 @@ def first_star():
 
 def get_all_distances(junctions):
     boxes = defaultdict(list)
-    
     for i in range(len(junctions)):
         for j in range(i + 1, len(junctions)):
-            boxes[(i, j)] = np.linalg.norm(junctions[i] - junctions[j])
+            boxes[(i, j)] = calc_euclidean_distance(junctions[i] , junctions[j])
 
     return boxes
 
-def calc_all_distances(junctions,current):
-    boxes = defaultdict(list)
-    
-    for i in range(len(junctions)):
-        for j in range(i + 1, len(junctions)):
-            distance = np.linalg.norm(junctions[i] - junctions[j])
-            if distance > current:
-                boxes[(i, j)] = distance
-
-    shortest = min(boxes, key=boxes.get)
-    return shortest, boxes[shortest]
-
-def calc_euclidean_distance(point1, point2):
-    return math.sqrt(sum((a - b) ** 2 for a, b in zip(point1, point2)))
-
-def find_all_connected(pairs):
-    # Build an adjacency list from the pairs
-    graph = defaultdict(list)
-    for a, b in pairs:
-        graph[a].append(b)
-        graph[b].append(a)  # Since the graph is undirected
-
-    # Function to perform BFS and find all connected nodes
-    def bfs(start):
-        visited = set()
-        queue = deque([start])
-        connected = []
-
-        while queue:
-            node = queue.popleft()
-            if node not in visited:
-                visited.add(node)
-                connected.append(node)
-                queue.extend(graph[node])  # Add neighbors to the queue
-
-        return connected
-
-    # Find all connected components
-    all_connected = []
-    visited_global = set()
-    for node in graph:
-        if node not in visited_global:
-            component = bfs(node)
-            all_connected.append(component)
-            visited_global.update(component)
-
-    return all_connected
-
 def second_star():
+    result = 0
+    junctions = defaultdict(list)
+    for idx,line in enumerate(input):
+        junctions[idx]= list(map(int,line.split(',')))
+    
+    boxes = get_all_distances(junctions)
+    boxes = sorted(boxes, key=boxes.get)
+    for box in boxes:
+        a,b = box
+        
+        junctions = removekeyfromdict(junctions,a)
+        junctions = removekeyfromdict(junctions,b)
+       
+        if len(junctions) == 0:
+            for idx,line in enumerate(input):
+                junctions[idx]= list(map(int,line.split(',')))
+            result = junctions[a][0] * junctions[b][0]
+            break
+
+
     print("Result Second Star")
- 
+    print(result)
 if __name__ == '__main__':
     main()

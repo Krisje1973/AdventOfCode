@@ -6,7 +6,7 @@ import re
 from queue import PriorityQueue
 from queue import Queue
 import heapq
-from math import inf
+import math
 import numpy as np
 from enum import Enum
  
@@ -837,6 +837,39 @@ def dfs_order(adj, v, parent, order):
     # all of its descendents first
     order.append(v)
 
+# BFS to find all connected nodes in an undirected graph
+def find_all_connected(pairs):
+    # Build an adjacency list from the pairs
+    graph = defaultdict(list)
+    for a, b in pairs:
+        graph[a].append(b)
+        graph[b].append(a)  # Since the graph is undirected
+
+    # Function to perform BFS and find all connected nodes
+    def bfs(start):
+        visited = set()
+        queue = deque([start])
+        connected = []
+
+        while queue:
+            node = queue.popleft()
+            if node not in visited:
+                visited.add(node)
+                connected.append(node)
+                queue.extend(graph[node])  # Add neighbors to the queue
+
+        return connected
+
+    # Find all connected components
+    all_connected = []
+    visited_global = set()
+    for node in graph:
+        if node not in visited_global:
+            component = bfs(node)
+            all_connected.append(component)
+            visited_global.update(component)
+
+    return all_connected
 
 def topological_sort(adj):
     parent = {}
@@ -907,6 +940,9 @@ class BfsGraph:
                     
 def manhattan(a, b):
     return sum(abs(val1-val2) for val1, val2 in zip(a,b))
+
+def calc_euclidean_distance(point1, point2):
+    return math.sqrt(sum((a - b) ** 2 for a, b in zip(point1, point2)))
 
 class Cart:
     def __init__(self, x, y, direction,grid=[]):
