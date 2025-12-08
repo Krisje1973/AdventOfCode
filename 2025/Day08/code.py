@@ -50,15 +50,14 @@ def second_star():
     
     boxes = get_all_distances(junctions)
     boxes = sorted(boxes, key=boxes.get)
+    remove = dict(junctions)
     for box in boxes:
         a,b = box
         
-        junctions = removekeyfromdict(junctions,a)
-        junctions = removekeyfromdict(junctions,b)
+        remove = removekeyfromdict(remove,a)
+        remove = removekeyfromdict(remove,b)
        
-        if len(junctions) == 0:
-            for idx,line in enumerate(input):
-                junctions[idx]= list(map(int,line.split(',')))
+        if len(remove) == 0:
             result = junctions[a][0] * junctions[b][0]
             break
 
