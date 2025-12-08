@@ -5,10 +5,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append("C:\DevOps\AdventOfCode")
 from  AOCHelper import * 
 input = []
+maxx = maxy = 0
 def readinput(filename):
     filename = f"{os.path.dirname(__file__)}\{filename}"
-    global input
+    global input, maxx, maxy
     input = readinput_lines(filename)
+    maxx = len(input[0]) -1
+    maxy = len(input) -1
     
 def main():
    readinput("input.txt")
@@ -47,8 +50,6 @@ def first_star():
 
 @cache
 def drop_beam(x,y):
-    maxx = len(input[0]) -1
-    maxy = len(input) -1
     if y == maxy:
         return 1
     nexty = min(y+1,maxy)
@@ -58,19 +59,9 @@ def drop_beam(x,y):
         return drop_beam(min(x,maxx),nexty)
     
 def second_star():
-    start = get_start()
-    beams = []
-    beams.append((0,start[0],start[1]))
-    seen = set()
-    maxx = len(input[0]) -1
-    maxy = len(input) -1
-
-    result = 0
-    time = 0
-    
-
+  
     print("Result First Star")
-    print(drop_beam(start[0],start[1]))
+    print(drop_beam(*get_start()))
 
 def get_start():
     for row,line in enumerate(input):
