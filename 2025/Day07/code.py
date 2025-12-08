@@ -12,17 +12,15 @@ def readinput(filename):
     
 def main():
    readinput("input.txt")
-   first_star()
+   #first_star()
    second_star()
 
 def first_star():
     #1881 = to high
-    gh = GridHelper()
     start = get_start()
     beams = set()
     beams.add(start)
     seen = set()
-    splitters = set()
     maxx = len(input[0]) -1
     maxy = len(input) -1
 
@@ -33,10 +31,8 @@ def first_star():
             continue
 
         nexty = min(y+1,maxy)
-       
         if input[y][x] == "^":
             result += 1
-            print(f"Hit target at {(x,y)} total {result}")
             beams.add((x-1,nexty))
             beams.add((x+1,nexty))
         else:
@@ -45,14 +41,38 @@ def first_star():
             beams.add((min(x,maxx),nexty))
         
         seen.add((x,y))
+
     print("Result First Star")
     print(result)
-    print([x for x,y in splitters if y==14])
 
+@cache
+def drop_beam(x,y):
+    maxx = len(input[0]) -1
+    maxy = len(input) -1
+    if y == maxy:
+        return 1
+    nexty = min(y+1,maxy)
+    if input[y][x] == "^":
+        return drop_beam(x-1,nexty) + drop_beam(x+1,nexty)
+    else:
+        return drop_beam(min(x,maxx),nexty)
+    
 def second_star():
-    print("Result Second Star")
+    start = get_start()
+    beams = []
+    beams.append((0,start[0],start[1]))
+    seen = set()
+    maxx = len(input[0]) -1
+    maxy = len(input) -1
+
+    result = 0
+    time = 0
+    
+
+    print("Result First Star")
+    print(drop_beam(start[0],start[1]))
+
 def get_start():
-    start = (0,0)
     for row,line in enumerate(input):
         for col,val in enumerate(line):
             if val == "S":
