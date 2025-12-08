@@ -52,15 +52,13 @@ def second_star():
     boxes = sorted(boxes, key=boxes.get)
     remove = dict(junctions)
     for box in boxes:
-        a,b = box
-        
+        a,b = box        
         remove = removekeyfromdict(remove,a)
         remove = removekeyfromdict(remove,b)
        
         if len(remove) == 0:
             result = junctions[a][0] * junctions[b][0]
             break
-
 
     print("Result Second Star")
     print(result)
