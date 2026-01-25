@@ -2,7 +2,7 @@ import math
 import functools ,itertools
 import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append("C:\DevOpps\GitHub\AdventOfCode")
+sys.path.append("C:\DevOps\AdventOfCode")
 from  AOCHelper import * 
 input = []
 def readinput(filename):
@@ -11,9 +11,9 @@ def readinput(filename):
     input = readinput_lines(filename)
     
 def main():
-   readinput("input.txt")
-   #first_star()
-   second_star()
+   readinput("input_ex.txt")
+   first_star()
+   #second_star()
 
 def first_star():
     tot = 0

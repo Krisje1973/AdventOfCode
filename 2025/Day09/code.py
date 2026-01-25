@@ -27,19 +27,9 @@ def first_star():
 
 def second_star():
     tiles = [list(map(int, line.strip().split(','))) for line in input]
-    xs = defaultdict(list)
-    ys = defaultdict(list)
-    for tile in tiles:
-        x,y = tile
-        xs[x].append(y)
-        ys[y].append(x)
-
-    result=0
-    grid = []
-    for x in xs:
-        xs[x].sort()
+   
     
     print("Result Second Star")
-    print(result)
+    print(tiles)
 if __name__ == '__main__':
     main()

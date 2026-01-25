@@ -407,6 +407,11 @@ class Binary:
 
   def get_int_from_binary_reversed_string(self,s):
     return int(s[::-1],2)
+  
+  def generate_binary_string(self,length, position):
+    binary = ['0'] * length
+    binary[position] = '1'
+    return ''.join(binary)
 
 
 
@@ -530,7 +535,6 @@ class TupleHelper():
         x,y = tuple
         return [(y + 1, x), (y - 1, x), (y, x - 1), (y, x + 1)]
 
-
     def get_neighbours(self,start, offset, grid_limits, neighbourtype:NeighbourghType = NeighbourghType.EXCLUDEDIAGONALS,excludestart=False):
        
         # th.get_neighbours((x,y),3,(len(row),len(input)),NeighbourghType.INCLUDEDIAGONALS) 
@@ -569,7 +573,6 @@ class TupleHelper():
 
         return set(results)
 
-
     def get_neighbours_with_bounderies(self,tuple,bound,allowunderzero=False):
         r,c = tuple
         maxr,maxc = bound
@@ -585,9 +588,6 @@ class TupleHelper():
         x,y = tuple
         for nx, ny in (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1), (x-1,y-1), (x+1,y+1),(x-1,y+1), (x+1,y-1):
             yield (nx, ny)
-            
-def add_tuples(tup1,tup2):
-    return tuple(sum(tup) for tup in zip(tup1,  tup2))
 
 class GridHelper:
   def get_adjacent(self,input):
@@ -638,7 +638,6 @@ class GridHelper:
 
 
   def calculate_combinations(self,data,offset):
-
     dist = [1]
     data.sort()
     for val in range(1, len(data)):
@@ -673,7 +672,10 @@ class GridHelper:
       combi_vals[offset] = combi_val      
          
     return combis,combi_vals
-
+  
+  def get_grid(self,size_x, size_y):
+      return [(x, y) for x in range(size_x) for y in range(size_y)]
+    
 class ChineseReminder():
   def calculate_chinese_remainder(self,rem, mod):
     #
@@ -749,6 +751,8 @@ class RegexHelper():
             
         return False
 
+    def remove_chars(chars,line):
+        output_string = re.sub(r"[\[\]]", "", line)
     def has_repeating_pattern(self,str):
         return bool(re.match(r'^(.+)\1+$', str))
 
@@ -1135,3 +1139,120 @@ def shoelace(xs,ys):
 
 def find_char_in_grid(grid,char):
     return [(c,r) for r,row in enumerate(grid) for c, ch in enumerate(row) if ch==char]
+
+class FloodFill():
+    def __init__(self, grid=None):
+        self.grid = grid
+
+    def get_outsides(self,grid=None):
+        if grid == None:
+            grid = self.grid
+        
+        assert(grid)
+
+        outside = {(-1, -1)}
+        queue = deque(outside)
+
+        while len(queue) > 0:
+            tx, ty = queue.popleft()
+            for nx, ny in [(tx - 1, ty), (tx + 1, ty), (tx, ty - 1), (tx, ty + 1)]:
+                if nx < -1 or ny < -1 or nx > len(grid) or ny > len(grid[0]): continue
+                if 0 <= nx < len(grid) and 0 <= ny < len(grid[0]) and grid[nx][ny] == 1: continue
+                if (nx, ny) in outside: continue
+                outside.add((nx, ny))
+                queue.append((nx, ny))
+        
+        return outside
+class ShapeHelper():
+    def __init__(self, coordinates=[],char="#",grid=None):
+        self.coordinates = list(coordinates)
+        self.char = char
+        self.max_x = 0
+        self.max_y = 0   
+        if not grid == None: self.set_coordinates_from_grid(grid)
+
+    def rotate(self):   
+        rotated = []
+        for coord in self.coordinates:
+            x,y = coord
+            if x == self.max_x:
+                if y == self.max_y:
+                    x += -1
+                else:
+                    y += 1
+            elif y == self.max_y:
+                if x == 0:
+                    y += -1
+                else:
+                    x += -1
+            elif y == 0:
+                x += 1
+            elif x == 0:
+                y += -1
+
+            rotated.append((x,y))
+        
+        self.coordinates = rotated
+
+    def flip_horizontal(self):
+        """
+        Flip shape horizontally (mirror across y-axis): (x, y) -> (-x, y)
+        """
+        flipped = [(-x, y) for x, y in self.coordinates]
+        self.coordinates = flipped
+        self.normalize()
+        return self
+    
+    def flip_vertical(self):
+        flipped = [(x, -y) for x, y in self.coordinates]
+        self.coordinates = flipped
+        self.normalize()
+        return self
+    
+    def normalize(self):
+        if not self.coordinates:
+            return
+        
+        min_x = min(x for x, y in self.coordinates)
+        min_y = min(y for x, y in self.coordinates)
+        
+        self.coordinates = [(x - min_x, y - min_y) for x, y in self.coordinates]
+     
+    def set_coordinates_from_grid(self,grid,ch = "#"):
+        if ch != self.char: self.char = ch
+        
+        coordinates = []
+        for  idy,y in enumerate(grid):
+            self.max_y = max(self.max_y,idy)
+            for idx, x in enumerate(y):
+                self.max_x = max(self.max_x,idx)
+                if x == ch:
+                    coordinates.append((idx,idy))
+        self.coordinates = coordinates
+
+    def __str__(self):
+        return self.to_string()
+    
+    def to_string(self):
+        if not self.coordinates:
+            return ""
+        
+        max_x = max(x for x, y in self.coordinates) if self.max_x == 0 else self.max_x
+        max_y = max(y for x, y in self.coordinates) if self.max_y == 0 else self.max_y
+        
+        lines = []
+        for y in range(max_y + 1):
+            line = ""
+            for x in range(max_x + 1):
+                line += f".{self.char}"[(x, y) in self.coordinates]
+            lines.append(line)
+        
+        return "\n".join(lines)
+
+class ArrayHelper:
+    @staticmethod
+    def rotate_array(array, times=1):
+        """ Rotates a 2D array 90 degrees clockwise 'times' times """
+        for _ in range(times % 4):
+            array = [list(row) for row in zip(*array[::-1])]
+        return array
