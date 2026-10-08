@@ -1,10 +1,10 @@
 from collections import deque
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append("C:\DevOps\AdventOfCode")
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
+
 
 from  AOCHelper import * 
-points = [list(map(int, line.split(","))) for line in open("C:\DevOps\AdventOfCode\\2025\Day09\input_ex.txt")]
+points = [list(map(int, line.split(","))) for line in open("C:\\DevOps\\github\\AdventOfCode\\2025\\Day09\\input_ex.txt")]
 print(points)
 xs = sorted({ x for x, _ in points })
 ys = sorted({ y for _, y in points })
