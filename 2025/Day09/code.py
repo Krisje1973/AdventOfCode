@@ -1,12 +1,11 @@
 import math
 import functools ,itertools
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-sys.path.append("C:\DevOps\AdventOfCode")
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 from  AOCHelper import * 
 input = []
 def readinput(filename):
-    filename = f"{os.path.dirname(__file__)}\{filename}"
+    filename = os.path.join(os.path.dirname(__file__), filename)
     global input
     input = readinput_lines(filename)
     
