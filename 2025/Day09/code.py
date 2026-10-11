@@ -8,6 +8,7 @@ def readinput(filename):
     filename = os.path.join(os.path.dirname(__file__), filename)
     global input
     input = readinput_lines(filename)
+    print(eval_rpn("12 5 + 3 * 4 2 / - 10 2 ^ + 5 3 * 2 * -"))
     
 def main():
    readinput("input_ex.txt")

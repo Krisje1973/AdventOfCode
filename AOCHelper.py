@@ -1,6 +1,7 @@
 import functools
 from functools import cache
 from collections import defaultdict,deque 
+from collections.abc import Iterable
 import sys
 import re
 from queue import PriorityQueue
@@ -1256,3 +1257,34 @@ class ArrayHelper:
         for _ in range(times % 4):
             array = [list(row) for row in zip(*array[::-1])]
         return array
+
+
+def eval_rpn(expressie: str | Iterable[str | int | float]) -> float:
+    """Evaluate an expression written in Reverse Polish Notation (RPN).
+
+    Accepts either a whitespace-separated string or an iterable of numbers and
+    operators. In RPN, each operator follows its operands; for example,
+    ``"3 4 + 2 *"`` evaluates to ``14``. Supported operators are ``+``, ``-``,
+    ``*``, ``/``, and ``^`` (exponentiation). Returns the result as a float.
+    """
+    stack = []
+    elementen = expressie.split() if isinstance(expressie, str) else (str(element) for element in expressie)
+    
+    operatoren = {
+        '+': lambda a, b: a + b,
+        '-': lambda a, b: a - b,
+        '*': lambda a, b: a * b,
+        '/': lambda a, b: a / b,
+        '^': lambda a, b: a ** b
+    }
+    
+    for element in elementen:
+        if element in operatoren:
+            b = stack.pop()
+            a = stack.pop()
+            resultaat = operatoren[element](a, b)
+            stack.append(resultaat)
+        else:
+            stack.append(float(element))
+            
+    return stack[0]
